@@ -1,0 +1,79 @@
+<app-header></app-header>
+
+<div class="container mt-5">
+
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title text-center">Add concept</h5>
+        <div class="row">
+          <form class="col-12 col-sm-6" (ngSubmit)="createConcept()" #createForm="ngForm">
+            <div class="form-group">
+              <label for="conceptId">Concept_id <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="conceptId" name="conceptId" [(ngModel)]="dataModel.conceptId" required>
+            </div>
+            <div class="form-group">
+              <label for="conceptDescription">Description <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" id="conceptDescription" name="conceptDescription" [(ngModel)]="dataModel.conceptDescription" required>
+            </div>
+            <div class="form-group">
+              <label for="conceptDisease">Disease <span class="text-danger">*</span></label>
+              <select class="form-control" id="conceptDisease" name="conceptDisease" [(ngModel)]="dataModel.conceptDisease" (change)="handleSelectChange('conceptDisease')" required>
+                <option disabled *ngIf="!diseases">Loading</option>
+                <option *ngIf="diseases" value="new">New disease</option>
+                <option *ngFor="let val of diseases" [value]="val">{{val}}</option>
+              </select>
+              <input placeholder="Enter new disease" type="text" class="form-control mt-2" *ngIf="dataModel.conceptDisease === 'new'" [(ngModel)]="dataModel.conceptDiseaseNew" [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="form-group">
+              <label for="conceptDictionary">Dictionary name <span class="text-danger">*</span></label>
+              <select class="form-control" id="conceptDictionary" name="conceptDictionary" [(ngModel)]="dataModel.conceptDictionary" (change)="handleSelectChange('conceptDictionary')" required>
+                <option disabled *ngIf="!dataModel.conceptDisease">Please, select disease</option>
+                <option disabled *ngIf="dataModel.conceptDisease && !dictionaries">Loading</option>
+                <option *ngIf="dictionaries" value="new">New dictionary</option>
+                <option *ngFor="let val of dictionaries" [value]="val">{{val}}</option>
+              </select>
+              <input placeholder="Enter new dictionary" type="text" class="form-control mt-2" *ngIf="dataModel.conceptDictionary === 'new'" [(ngModel)]="dataModel.conceptDictionaryNew" [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="form-group">
+              <label for="conceptPage">Page name</label>
+              <select class="form-control" id="conceptPage" name="conceptPage" [(ngModel)]="dataModel.conceptPage" (change)="handleSelectChange('conceptPage')">
+                <option disabled *ngIf="!dataModel.conceptDictionary">Please, select dictionary</option>
+                <option disabled *ngIf="dataModel.conceptDictionary && !pages">Loading</option>
+                <option *ngIf="dataModel.conceptDictionary && pages" value="new">New page name</option>
+                <option *ngFor="let val of pages" [value]="val">{{val}}</option>
+              </select>
+              <input placeholder="Enter new page name" type="text" class="form-control mt-2" *ngIf="dataModel.conceptPage === 'new'" [(ngModel)]="dataModel.conceptPageNew" [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="form-group">
+              <label for="conceptField">Field name</label>
+              <select class="form-control" id="conceptField" name="conceptField" [(ngModel)]="dataModel.conceptField">
+                <option disabled *ngIf="!dataModel.conceptPage">Please, select page name</option>
+                <option disabled *ngIf="dataModel.conceptPage && !fields">Loading</option>
+                <option *ngIf="dataModel.conceptPage && fields" value="new">New field name</option>
+                <option *ngFor="let val of fields" [value]="val">{{val}}</option>
+              </select>
+              <input placeholder="Enter new field name" type="text" class="form-control mt-2" *ngIf="dataModel.conceptField === 'new'" [(ngModel)]="dataModel.conceptFieldNew" [ngModelOptions]="{standalone: true}">
+            </div>
+            <button type="submit" class="btn btn-primary float-right" [disabled]="!createForm.valid">Save</button>
+          </form>
+          <div class="col-12 col-sm-6">
+            <div class="form-group">
+              <label for="selectFile">OR select file</label>
+              <div class="input-group">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="selectFile" (change)="onFileChange($event.target.files)" [accept]="acceptFilesFormat">
+                  <label class="custom-file-label" for="selectFile">{{bulkUploadFile ? bulkUploadFile.name : 'Bulk upload from Excel'}}</label>
+                </div>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary float-right"
+                    (click)="uploadFile()"
+                    [disabled]="!bulkUploadFile">Upload file</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

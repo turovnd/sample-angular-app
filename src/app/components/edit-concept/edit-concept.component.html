@@ -1,0 +1,53 @@
+<form (ngSubmit)="handleSubmit()" #modalForm="ngForm">
+  <div class="modal-header">
+    <h5 class="modal-title">Edit concept</h5>
+    <button type="button" class="close" (click)="handleClose()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="conceptId">Concept_id <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="conceptId" name="conceptId" [(ngModel)]="dataModel.conceptId" required>
+    </div>
+    <div class="form-group">
+      <label for="conceptDescription">Description <span class="text-danger">*</span></label>
+      <input type="text" class="form-control" id="conceptDescription" name="conceptDescription" [(ngModel)]="dataModel.conceptDescription" required>
+    </div>
+    <div class="form-group">
+      <label for="conceptDisease">Disease <span class="text-danger">*</span></label>
+      <select class="form-control" id="conceptDisease" name="conceptDisease" [(ngModel)]="dataModel.conceptDisease" (change)="handleSelectChange('conceptDisease')" required>
+        <option disabled *ngIf="!diseases">Loading</option>
+        <option *ngFor="let val of diseases" [value]="val">{{val}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="conceptDictionary">Dictionary name <span class="text-danger">*</span></label>
+      <select class="form-control" id="conceptDictionary" name="conceptDictionary" [(ngModel)]="dataModel.conceptDictionary" (change)="handleSelectChange('conceptDictionary')" required>
+        <option disabled *ngIf="!dataModel.conceptDisease">Please, select disease</option>
+        <option disabled *ngIf="dataModel.conceptDisease && !dictionaries">Loading</option>
+        <option *ngFor="let val of dictionaries" [value]="val">{{val}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="conceptPage">Page name</label>
+      <select class="form-control" id="conceptPage" name="conceptPage" [(ngModel)]="dataModel.conceptPage" (change)="handleSelectChange('conceptPage')">
+        <option disabled *ngIf="!dataModel.conceptDictionary">Please, select dictionary</option>
+        <option disabled *ngIf="dataModel.conceptDictionary && !pages">Loading</option>
+        <option *ngFor="let val of pages" [value]="val">{{val}}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="conceptField">Field name</label>
+      <select class="form-control" id="conceptField" name="conceptField" [(ngModel)]="dataModel.conceptField">
+        <option disabled *ngIf="!dataModel.conceptPage">Please, select page name</option>
+        <option disabled *ngIf="dataModel.conceptPage && !fields">Loading</option>
+        <option *ngFor="let val of fields" [value]="val">{{val}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="handleClose()">Close</button>
+    <button type="submit" class="btn btn-primary" [disabled]="!modalForm.valid">Save changes</button>
+  </div>
+</form>

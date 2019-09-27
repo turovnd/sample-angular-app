@@ -1,0 +1,104 @@
+<app-header></app-header>
+
+<div class="container mt-5">
+
+  <div class="col-12">
+    <form class="card" (ngSubmit)="searchConcept()" #searchForm="ngForm">
+      <div class="card-body">
+        <h5 class="card-title text-center">Search concept</h5>
+        <div class="row">
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="conceptId">Concept_id</label>
+              <input type="text" class="form-control" id="conceptId" name="conceptId" [(ngModel)]="searchModel.conceptId">
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="conceptDescription">Description</label>
+              <input type="text" class="form-control" id="conceptDescription" name="conceptDescription" [(ngModel)]="searchModel.conceptDescription">
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="conceptDisease">Disease</label>
+              <select class="form-control" id="conceptDisease" name="conceptDisease" [(ngModel)]="searchModel.conceptDisease">
+                <option disabled selected></option>
+                <option *ngFor="let val of diseases" [value]="val">{{val}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="conceptDictionary">Dictionary name</label>
+              <select class="form-control" id="conceptDictionary" name="conceptDictionary" [(ngModel)]="searchModel.conceptDictionary">
+                <option disabled selected></option>
+                <option *ngFor="let val of dictionaries" [value]="val">{{val}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="conceptPage">Page name</label>
+              <select class="form-control" id="conceptPage" name="conceptPage" [(ngModel)]="searchModel.conceptPage">
+                <option disabled selected></option>
+                <option *ngFor="let val of diseases" [value]="val">{{val}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="form-group">
+              <label for="conceptField">Field name</label>
+              <select class="form-control" id="conceptField" name="conceptField" [(ngModel)]="searchModel.conceptField">
+                <option disabled selected></option>
+                <option *ngFor="let val of diseases" [value]="val">{{val}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 clearfix">
+            <button type="submit" class="btn btn-primary float-right" [disabled]="!searchForm.valid">Search</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="col-12 mt-5" *ngIf="results.length">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title text-center">Results</h5>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Concept ID</th>
+              <th scope="col">Description</th>
+              <th scope="col">Dictionary name</th>
+              <th scope="col">Disease</th>
+              <th scope="col">Page name</th>
+              <th scope="col">Field name</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of results">
+              <td>{{item.conceptId}}</td>
+              <td>{{item.conceptDescription}}</td>
+              <td>{{item.conceptDictionary}}</td>
+              <td>{{item.conceptDisease}}</td>
+              <td>{{item.conceptPage}}</td>
+              <td>{{item.conceptField}}</td>
+              <td>
+                <button type="button" class="btn btn-outline-primary" (click)="editConcept(item)">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+                <button type="button" class="btn btn-outline-danger ml-2" (click)="deleteConcept(item)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
