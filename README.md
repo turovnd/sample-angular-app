@@ -1,4 +1,5 @@
-# FIIT19Front
+# Sample angular app
+This project shows the app architecture and 2 pages: search page and new concept. Also, it has a modal for edit and deletes actions. After changing the select, the request for retrieving data is making.
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.5.
 
